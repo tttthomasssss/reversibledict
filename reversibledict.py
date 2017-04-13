@@ -4,20 +4,10 @@ class ReversibleDict(collections.MutableMapping):
 	"""A dictionary that allows a reverse mapping from values back to keys"""
 
 	def __init__(self, *args, **kwargs):
-		self.store = dict()
+		self.store = {}
 		self.reverse_store = collections.defaultdict(list)
-
-		if ('reverse_as_list' in kwargs):
-			self.reverse_as_list = kwargs['reverse_as_list']
-			del kwargs['reverse_as_list']
-		else:
-			self.reverse_as_list = False
-
-		if ('reverse_as_list_if_none' in kwargs):
-			self.reverse_as_list_if_none = kwargs['reverse_as_list_if_none']
-			del kwargs['reverse_as_list_if_none']
-		else:
-			self.reverse_as_list_if_none = False
+        self.reverse_as_list = kwargs.pop('reverse_as_list', False)
+		self.reverse_as_list_if_none = kwargs.pop('reverse_as_list_if_none', False)
 
 		self.update(dict(*args, **kwargs))
 

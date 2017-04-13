@@ -1,14 +1,16 @@
-#ReversibleDict
+# ReversibleDict
 
 *~~~ A dictionary being able to perform a reverse lookup ~~~*
 
-##How does it work?
+## How does it work?
+
 I calculate a hash of the value (or a hash of the value's `__str__` representation for unhashable types - i.e. `lists`) and internally store the reverse mapping, so no linear search through the values if you thought about that.
 
-##What if there is more than 1 value for a key?
+## What if there is more than 1 value for a key?
+
 I simply return a `list` of all keys that matched. 
 
-##Usage
+## Usage
 ```
 >>> from reversibledict import ReversibleDict
 >>> r = ReversibleDict()
