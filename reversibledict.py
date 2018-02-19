@@ -1,5 +1,6 @@
 import collections
 
+
 class ReversibleDict(collections.MutableMapping):
     """A dictionary that allows a reverse mapping from values back to keys"""
 
@@ -55,3 +56,12 @@ class ReversibleDict(collections.MutableMapping):
 
     def __unicode__(self):
         return self.store.__unicode__()
+
+    @classmethod
+    def from_txt_file(cls, file, sep='\t'):
+        r = ReversibleDict()
+        with open(file) as in_file:
+            for line in in_file:
+                parts = line.strip().split(sep)
+                r[parts[0]] = parts[1]
+        return r

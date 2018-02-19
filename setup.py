@@ -51,7 +51,7 @@ setup(
 		'Topic :: Software Development',
 		'Topic :: Software Development :: Libraries',
 		'Topic :: Software Development :: Libraries :: Python Modules',
-		'Topic :: Utilities'
+		'Topic :: Utilities',
 
 		# Pick your license as you wish (should match "license" above)
 		'License :: OSI Approved :: MIT License',
