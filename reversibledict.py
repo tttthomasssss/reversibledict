@@ -63,5 +63,6 @@ class ReversibleDict(collections.MutableMapping):
         with open(file) as in_file:
             for line in in_file:
                 parts = line.strip().split(sep)
-                r[parts[0]] = parts[1]
+                if (len(parts) == 2):
+                    r[parts[0]] = parts[1]
         return r
