@@ -1,4 +1,7 @@
 import collections
+import json
+from pathlib import Path
+from typing import Any, Dict
 
 
 class ReversibleDict(collections.MutableMapping):
@@ -22,7 +25,7 @@ class ReversibleDict(collections.MutableMapping):
     def __delitem__(self, key):
         value_hash = self.__valuehash__(self.store[key])
 
-        if (len(self.reverse_store[value_hash]) == 1):
+        if len(self.reverse_store[value_hash]) == 1:
             del self.reverse_store[value_hash]
 
         del self.store[key]
@@ -32,9 +35,9 @@ class ReversibleDict(collections.MutableMapping):
 
         keys = self.reverse_store[value_hash]
 
-        if (len(keys) == 1):
+        if len(keys) == 1:
             return keys if self.reverse_as_list else keys[0]
-        elif (len(keys) > 1):
+        elif len(keys) > 1:
             return keys
         else:
             return [] if self.reverse_as_list or self.reverse_as_list_if_none else None
@@ -57,12 +60,20 @@ class ReversibleDict(collections.MutableMapping):
     def __unicode__(self):
         return self.store.__unicode__()
 
-    @classmethod
-    def from_txt_file(cls, file, sep='\t'):
+    def to_json(self, filename: Union[str, Path], indent: int = 4):
+        with open(filename, "w") as out_file:
+            json.dump(self.store, out_file, indent=indent)
+
+    @staticmethod
+    def from_dict(other: Dict[Any, Any]) -> "ReversibleDict":
         r = ReversibleDict()
-        with open(file) as in_file:
-            for line in in_file:
-                parts = line.strip().split(sep)
-                if (len(parts) == 2):
-                    r[parts[0]] = parts[1]
+        for key, val in other.items():
+            r[key] = val
         return r
+
+    @staticmethod
+    def from_json(filename: Union[str, Path]) -> "ReversibleDict":
+        p = Path(filename)
+        with open(p) as in_file:
+            d = json.load(in_file)
+        return ReversibleDict.from_dict(d)
